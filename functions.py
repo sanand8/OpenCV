@@ -7,9 +7,11 @@ img = cv2.imread("resource/gate_image.jpg")
 Gray_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
 #to convert into blurred image
+#(7,7) is the w and h of the kernel and 0 is the standard deviation
 Blur_img = cv2.GaussianBlur(img,(7,7),0)
 
 #to detect the edges in pic
+
 Canny_img = cv2.Canny(img,100,100)
 
 kernel = np.ones((5,5),np.uint8)
