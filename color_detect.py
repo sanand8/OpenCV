@@ -4,6 +4,7 @@ import numpy as np
 def empty(a):
     pass
 
+#stacking images
 def stackImages(scale,imgArray):
     rows = len(imgArray)
     cols = len(imgArray[0])
@@ -37,6 +38,7 @@ def stackImages(scale,imgArray):
 
 path = 'resource/cars.jpg'
 
+#TrackBar to detect the HSV form of the image
 cv2.namedWindow("TrackBars")
 cv2.resizeWindow("TrackBars",640,360)
 cv2.createTrackbar("Hue Min", "TrackBars",39,179,empty)
@@ -47,12 +49,16 @@ cv2.createTrackbar("Val Min", "TrackBars",7,255,empty)
 cv2.createTrackbar("Val Max", "TrackBars",186,255,empty)
 
 
+#it will continously show the image according to the changes
 while True:
     img = cv2.imread(path)
     width, height = 360,360
     img1 = cv2.resize(img,(width,height))
 
+    #changing the image to HSV
     imgHSV = cv2.cvtColor(img1,cv2.COLOR_BGR2HSV)
+
+    #getting the value from the track bars
     h_min = cv2.getTrackbarPos("Hue Min","TrackBars")
     h_max = cv2.getTrackbarPos("Hue Max","TrackBars")
     s_min = cv2.getTrackbarPos("Sat Min","TrackBars")
@@ -62,11 +68,15 @@ while True:
 
     print(h_min,h_max,s_min,s_max,v_min,v_max)
 
+
     lower = np.array([h_min,s_min,v_min])
     upper = np.array([h_max,s_max,v_max])
 
+    #mask for the required image according to the values
     mask = cv2.inRange(imgHSV,lower,upper)
 
+    #it will take the matching pixels from both the images and 
+    # then show the output
     result = cv2.bitwise_and(img1,img1,mask=mask)
     # cv2.imshow("real",img1)
     # cv2.imshow("my image",imgHSV)
