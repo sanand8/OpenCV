@@ -1,12 +1,15 @@
-import pyttsx3
-import PyPDF2
-book = open('it.pdf', 'rb')
-pdfReader = PyPDF2.PdfFileReader(book)
-pages = pdfReader.numPages
-print(pages)
-speaker = pyttsx3.init()
-for num in range(0, pages):
-    page = pdfReader.getPage(num)
-    text = page.extractText()
-    speaker.say(text)
-    speaker.runAndWait()
+import cv2
+
+
+faceCascade= cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+img = cv2.imread('resource/fav.jpg')
+imgGray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+faces = faceCascade.detectMultiScale(imgGray,1.1,4)
+
+for (x,y,w,h) in faces:
+    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+
+cv2.imshow("Result", img)
+cv2.waitKey(0)
